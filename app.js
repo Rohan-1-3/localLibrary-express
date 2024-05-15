@@ -3,11 +3,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require("mongoose")
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+mongoose.set("strictQuery", false);
+
+const mongoDB = "mongodb+srv://rohanshrestha130:mongoDB@cluster0.p0i6h2v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB)
+  .then(()=>console.log("Success"));
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
