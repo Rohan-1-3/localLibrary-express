@@ -23,12 +23,17 @@ AuthorSchema.virtual("url").get(function(){
     return `/catalog/author/${this._id}`;
 });
 
-AuthorSchema.virtual("dob_formatted").get(function(){
-    return this.date_of_birth ? DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED) : "";
+AuthorSchema.virtual("life_span").get(function() {
+    if (this.date_of_birth) {
+        if (this.date_of_death) {
+            return `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - ${DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)}`;
+        } else {
+            return `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - Present`;
+        }
+    } else {
+        return "-";
+    }
 });
 
-AuthorSchema.virtual("dod_formatted").get(function(){
-    return this.date_of_death ? DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED) : "Not Dead";
-});
 
 module.exports = mongoose.model("Author", AuthorSchema);
