@@ -10,7 +10,7 @@ exports.author_detail = asyncHandler(async (req, res, next)=>{
 });
 
 exports.author_create_get = asyncHandler(async (req, res, next)=>{
-    res.send("NOT IMPLEMENTED: Author Get POST");
+    res.send("NOT IMPLEMENTED: Author Create GET");
 });
 
 exports.author_create_post = asyncHandler(async (req, res, next)=>{
