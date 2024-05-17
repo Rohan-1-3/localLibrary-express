@@ -26,9 +26,9 @@ AuthorSchema.virtual("url").get(function(){
 AuthorSchema.virtual("life_span").get(function() {
     if (this.date_of_birth) {
         if (this.date_of_death) {
-            return `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - ${DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)}`;
+            return `(${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - ${DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)})`;
         } else {
-            return `${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - Present`;
+            return `(   ${DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED)} - Present)`;
         }
     } else {
         return "-";

@@ -49,7 +49,7 @@ exports.book_detail = asyncHandler(async (req, res, next) => {
     Book.findById(req.params.id).populate("author").populate("genre").exec(),
     BookInstance.find({ book: req.params.id }).exec(),
   ]);
-
+  
   if (book === null) {
     // No results.
     const err = new Error("Book not found");
