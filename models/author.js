@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { DateTime } = require("luxon");
+const moment = require("moment");
 
 const Schema = mongoose.Schema;
 
@@ -34,6 +35,14 @@ AuthorSchema.virtual("life_span").get(function() {
         return "-";
     }
 });
+
+AuthorSchema.virtual("dob").get(function(){
+    return moment(this.date_of_birth).format('YYYY-MM-DD');
+})
+
+AuthorSchema.virtual("dod").get(function(){
+    return this.date_of_death ? moment(this.date_of_death).format('YYYY-MM-DD') : ""
+})
 
 
 module.exports = mongoose.model("Author", AuthorSchema);
