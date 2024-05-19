@@ -4,22 +4,43 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require("mongoose")
+require("dotenv").config();
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const catalogRouter = require("./routes/catalog");
+const helmet = require("helmet");
+
+const compression = require("compression");
 
 var app = express();
 
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
+    },
+  }),
+);
+
 mongoose.set("strictQuery", false);
 
-const mongoDB = "mongodb+srv://rohanshrestha130:mongoDB@cluster0.p0i6h2v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoDB = process.env.MONGODB_URI;
+
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB)
   .then(()=>console.log("Success"));
 }
 
+app.use(compression());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
